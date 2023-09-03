@@ -14,6 +14,8 @@ import static Constants.Final.MailPitURL;
 import static Constants.Final.ONBOARDING;
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
+import static io.restassured.matcher.RestAssuredMatchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 public class CompleteEmailVerification {
 
@@ -52,6 +54,10 @@ public class CompleteEmailVerification {
                      post("/Email/CompleteVerification").
                 then().
                     statusCode(200).
+                    body("data.email", equalTo("davetrial"+emailNumber+"@gmail.com")).
+                    body("data.isValidated", equalTo(true)).
+                    body("message", equalTo("Successful")).
+                    body("status", equalTo(true)).
                 log().all();
 
         } catch (IOException e) {

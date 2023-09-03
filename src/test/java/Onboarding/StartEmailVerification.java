@@ -8,6 +8,7 @@ import java.io.*;
 import static Constants.Final.ONBOARDING;
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
 public class StartEmailVerification {
 
@@ -41,14 +42,16 @@ public class StartEmailVerification {
         //System.out.println(ONBOARDING);
         given().
 
-                header("Content-Type","application/json").
-                contentType(ContentType.JSON).
-                accept(ContentType.JSON).
-                body(request.toJSONString()).
+                    header("Content-Type","application/json").
+                    contentType(ContentType.JSON).
+                    accept(ContentType.JSON).
+                    body(request.toJSONString()).
                 when().
-                post("/Email/StartVerification").
+                    post("/Email/StartVerification").
                 then().
-                statusCode(200).
+                    statusCode(200).
+                    body("message", equalTo("Email is validated and code has been sent to the user")).
+                    body("status", equalTo(true)).
                 log().all();
 
             //---Write File Contents - incremented email number---
